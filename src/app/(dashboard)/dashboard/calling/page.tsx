@@ -88,7 +88,7 @@ export default function CallingPage() {
   const { profile } = useAuthStore()
 
   const [activeFilter, setActiveFilter] = useState<CallFilter>('new')
-  const [leads, setLeads] = useState<Lead[]>([])
+  const [leads, setLeads] = useState<any[]>([])
   const [counts, setCounts] = useState<Record<CallFilter, number>>({ new: 0, callback: 0, rnr: 0, follow_up: 0, hot: 0 })
   const [idx, setIdx] = useState(0)
   const [loading, setLoading] = useState(true)
