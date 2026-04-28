@@ -93,11 +93,10 @@ export default function CategorySelector({ leadId, compact = false }: Props) {
 
         <button
           onClick={() => setOpen(!open)}
-          className={`inline-flex items-center gap-1.5 text-xs border transition-all rounded-full px-2.5 py-1 ${
-            open
+          className={`inline-flex items-center gap-1.5 text-xs border transition-all rounded-full px-2.5 py-1 ${open
               ? 'border-brand-400 text-brand-600 bg-brand-50'
               : 'border-dashed border-slate-300 text-slate-500 hover:border-brand-400 hover:text-brand-600'
-          }`}
+            }`}
         >
           <Tag className="w-3 h-3" />
           {assigned.length === 0 ? 'Category lagao' : 'Change'}
@@ -129,14 +128,16 @@ export default function CategorySelector({ leadId, compact = false }: Props) {
                   <button
                     key={cat.id}
                     onClick={() => toggleCategory(cat)}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors text-left ${
-                      isOn ? 'bg-slate-50' : 'hover:bg-slate-50'
-                    }`}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors text-left ${isOn ? 'bg-slate-50' : 'hover:bg-slate-50'
+                      }`}
                   >
                     {/* Color dot */}
                     <div
                       className="w-3.5 h-3.5 rounded-full flex-shrink-0 ring-2 ring-offset-1"
-                      style={{ backgroundColor: cat.color, ringColor: cat.color + '40' }}
+                      style={{
+                        backgroundColor: cat.color,
+                        boxShadow: `0 0 0 2px ${cat.color}40`
+                      }}
                     />
                     <span className="flex-1 text-slate-700 font-medium">{cat.name}</span>
                     {isOn && <Check className="w-4 h-4 text-brand-600 flex-shrink-0" />}
