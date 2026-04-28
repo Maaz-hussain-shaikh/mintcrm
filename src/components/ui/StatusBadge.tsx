@@ -1,6 +1,6 @@
 import type { LeadStatus } from '@/types'
 
-const config: Partial<Record<LeadStatus, { label: string; classes: string }>> = {
+const config: Record<LeadStatus, { label: string; classes: string }> = {
   new:            { label: 'New',            classes: 'bg-blue-50 text-blue-700' },
   hot:            { label: 'Hot 🔥',          classes: 'bg-orange-50 text-orange-700' },
   cold:           { label: 'Cold',           classes: 'bg-slate-100 text-slate-600' },

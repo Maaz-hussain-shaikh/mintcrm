@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'MintCRM - Smart Lead Management',
+  title: 'TravelCRM - Smart Lead Management',
   description: 'Production-ready CRM for travel agencies',
 }
 

@@ -6,7 +6,8 @@ export async function POST(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const today = new Date().toISOString().split('T')[0]
+  // IST date using Intl
+  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' })
 
   // Check if already checked in today
   const { data: existing } = await supabase

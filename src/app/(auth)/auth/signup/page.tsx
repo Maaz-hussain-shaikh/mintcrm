@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { createClient } from '@/lib/supabase/client'
-import { Plane, Eye, EyeOff, Loader2 } from 'lucide-react'
+import { Leaf, Eye, EyeOff, Loader2 } from 'lucide-react'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -52,11 +52,11 @@ export default function SignupPage() {
   return (
     <div className="card p-8 animate-in">
       <div className="flex flex-col items-center mb-8">
-        <div className="w-12 h-12 bg-brand-600 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-brand-200">
-          <Plane className="text-white w-6 h-6" />
+      <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg shadow-green-200 mb-4">
+          <Leaf className="w-7 h-7 text-white" />
         </div>
         <h1 className="font-display text-2xl font-bold text-slate-900">Create account</h1>
-        <p className="text-slate-500 text-sm mt-1">Join TravelCRM today</p>
+        <p className="text-slate-500 text-sm mt-1">Join MintCRM today</p>
       </div>
 
       <form onSubmit={handleSignup} className="space-y-4">

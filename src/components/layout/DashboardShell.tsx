@@ -3,11 +3,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Leaf } from 'lucide-react'
 import toast from 'react-hot-toast'
 import {
-  LayoutDashboard, Users, Calendar, LogOut, Plane,
-  BarChart3, ClipboardList, Phone, ChevronRight, Menu, X, FileBarChart, Star
+  LayoutDashboard, Users, Calendar, LogOut, Leaf ,
+  BarChart3, ClipboardList, Phone, ChevronRight, Menu, X, FileBarChart, Star, Tag as Tag2
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useAuthStore } from '@/store/auth'
@@ -21,14 +20,15 @@ interface Props {
 }
 
 const navItems = (role: string) => [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin', 'employee'] },
-  { href: '/dashboard/leads', label: 'Leads', icon: Users, roles: ['admin', 'employee'] },
-  { href: '/dashboard/calling', label: 'Calling View', icon: Phone, roles: ['admin', 'employee'] },
-  { href: '/dashboard/admin', label: 'Admin Panel', icon: BarChart3, roles: ['admin'] },
-  { href: '/dashboard/reports', label: 'Reports', icon: FileBarChart, roles: ['admin'] },
-  { href: '/dashboard/my-customers', label: 'My Customers', icon: Star, roles: ['admin', 'employee'] },
-  { href: '/dashboard/attendance', label: 'Attendance', icon: Calendar, roles: ['admin'] },
-  { href: '/dashboard/activities', label: 'Activities', icon: ClipboardList, roles: ['admin'] },
+  { href: '/dashboard',             label: 'Dashboard',    icon: LayoutDashboard, roles: ['admin', 'employee'] },
+  { href: '/dashboard/leads',       label: 'Leads',        icon: Users,           roles: ['admin', 'employee'] },
+  { href: '/dashboard/calling',     label: 'Calling View', icon: Phone,           roles: ['admin', 'employee'] },
+  { href: '/dashboard/admin',       label: 'Admin Panel',  icon: BarChart3,       roles: ['admin'] },
+  { href: '/dashboard/reports',      label: 'Reports',      icon: FileBarChart,    roles: ['admin'] },
+  { href: '/dashboard/categories',   label: 'Categories',   icon: Tag2,            roles: ['admin'] },
+  { href: '/dashboard/my-customers', label: 'My Customers', icon: Star,            roles: ['admin', 'employee'] },
+  { href: '/dashboard/attendance',  label: 'Attendance',   icon: Calendar,        roles: ['admin'] },
+  { href: '/dashboard/activities',  label: 'Activities',   icon: ClipboardList,   roles: ['admin'] },
 ].filter(item => item.roles.includes(role))
 
 export default function DashboardShell({ profile, children }: Props) {
@@ -47,7 +47,8 @@ export default function DashboardShell({ profile, children }: Props) {
     if (checkedIn.current) return
     checkedIn.current = true
     async function checkIn() {
-      const today = new Date().toISOString().split('T')[0]
+      // IST date using Intl (correct, no double offset)
+      const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' })
       const { data: existing } = await supabase
         .from('attendance').select('id, check_out')
         .eq('user_id', profile.id).eq('date', today).maybeSingle()
@@ -120,8 +121,6 @@ export default function DashboardShell({ profile, children }: Props) {
         </div>
       </div>
 
-
-
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-0.5">
         {items.map((item) => {
@@ -130,8 +129,9 @@ export default function DashboardShell({ profile, children }: Props) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors group ${active ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                }`}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors group ${
+                active ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+              }`}
             >
               <item.icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-brand-600' : 'text-slate-400 group-hover:text-slate-600'}`} />
               {item.label}

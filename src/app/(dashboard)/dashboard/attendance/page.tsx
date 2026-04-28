@@ -1,17 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import { format, parseISO } from 'date-fns'
+import { formatTimeIST, formatDateIST, minutesToHHMM } from '@/lib/dateUtils'
 import { Clock, UserCheck } from 'lucide-react'
 import StatCard from '@/components/ui/StatCard'
 
 export const revalidate = 0
 
-function minutesToHHMM(minutes: number | null | undefined) {
-  if (!minutes) return '—'
-  const h = Math.floor(minutes / 60)
-  const m = minutes % 60
-  return `${h}h ${m}m`
-}
+
 
 export default async function AttendancePage() {
   const supabase = createClient()
@@ -61,7 +56,7 @@ export default async function AttendancePage() {
       <div className="card overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
           <span className="w-2 h-2 bg-brand-500 rounded-full pulse-dot" />
-          <h2 className="font-semibold text-slate-900">Live Now — {format(new Date(), 'EEEE, MMM d')}</h2>
+          <h2 className="font-semibold text-slate-900">Live Now — {new Date().toLocaleDateString('en-IN', {weekday:'long', month:'short', day:'numeric'})}</h2>
         </div>
         {todayRecords.length === 0 ? (
           <div className="text-center py-10 text-slate-400 text-sm">No check-ins today yet</div>
@@ -83,9 +78,9 @@ export default async function AttendancePage() {
                 <div className="text-right">
                   <div className="flex items-center gap-3">
                     <div className="text-xs text-slate-500">
-                      <span className="font-medium text-slate-700">In:</span> {format(parseISO(rec.check_in), 'h:mm a')}
+                      <span className="font-medium text-slate-700">In:</span> {formatTimeIST(rec.check_in)}
                       {rec.check_out && (
-                        <> &nbsp;·&nbsp; <span className="font-medium text-slate-700">Out:</span> {format(parseISO(rec.check_out), 'h:mm a')}</>
+                        <> &nbsp;·&nbsp; <span className="font-medium text-slate-700">Out:</span> {formatTimeIST(rec.check_out)}</>
                       )}
                     </div>
                     {rec.total_minutes && (
@@ -112,7 +107,7 @@ export default async function AttendancePage() {
       {dates.filter(d => d !== today).map(date => (
         <div key={date} className="card overflow-hidden">
           <div className="px-5 py-3 border-b border-slate-100 bg-slate-50">
-            <h3 className="font-medium text-slate-700 text-sm">{format(parseISO(date), 'EEEE, MMMM d, yyyy')}</h3>
+            <h3 className="font-medium text-slate-700 text-sm">{new Date(date + 'T00:00:00').toLocaleDateString('en-IN', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}</h3>
           </div>
           <div className="divide-y divide-slate-50">
             {byDate[date]?.map((rec: any) => (
@@ -126,8 +121,8 @@ export default async function AttendancePage() {
                   <p className="text-sm font-medium text-slate-800">{rec.user?.full_name}</p>
                 </div>
                 <div className="flex items-center gap-4 text-xs text-slate-500">
-                  <span>In: <span className="font-medium text-slate-700">{format(parseISO(rec.check_in), 'h:mm a')}</span></span>
-                  {rec.check_out && <span>Out: <span className="font-medium text-slate-700">{format(parseISO(rec.check_out), 'h:mm a')}</span></span>}
+                  <span>In: <span className="font-medium text-slate-700">{formatTimeIST(rec.check_in)}</span></span>
+                  {rec.check_out && <span>Out: <span className="font-medium text-slate-700">{formatTimeIST(rec.check_out)}</span></span>}
                   {rec.total_minutes && (
                     <span className="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium">
                       {minutesToHHMM(rec.total_minutes)}

@@ -22,11 +22,19 @@ export interface Lead {
   phone: string
   email?: string | null
   trip_interest?: string | null
+  destination?: string | null
   travel_date?: string | null
   budget?: number | null
+  person_count?: number | null
   status: LeadStatus
   assigned_to?: string | null
+  assigned_date?: string | null
   follow_up_at?: string | null
+  callback_at?: string | null
+  rnr_count?: number | null
+  last_called_at?: string | null
+  last_called_date?: string | null
+  hot_note?: string | null
   notes?: string | null
   source: string
   created_by?: string | null
@@ -77,9 +85,13 @@ export interface Notification {
 }
 
 export interface LeadFilters {
-  status?: LeadStatus | ''
-  assigned_to?: string | ''
-  follow_up_date?: string | ''
+  status?: LeadStatus | ""
+  assigned_to?: string | ""
+  follow_up_date?: string | ""
+  assigned_date?: string | ""
+  last_called_date?: string | ""
+  travel_date?: string | ""
+  destination?: string | ""
   search?: string
 }
 
@@ -123,4 +135,24 @@ export interface EmployeeDailyReport {
   booked_leads: number
   recent_calls: LeadActivity[]
   attendance_today?: Attendance | null
+}
+
+export interface LeadCategory {
+  id: string
+  name: string
+  color: string
+  description?: string | null
+  created_by?: string | null
+  is_active: boolean
+  sort_order: number
+  created_at: string
+  updated_at: string
+}
+
+export interface LeadCategoryMap {
+  id: string
+  lead_id: string
+  category_id: string
+  created_at: string
+  category?: LeadCategory | null
 }
