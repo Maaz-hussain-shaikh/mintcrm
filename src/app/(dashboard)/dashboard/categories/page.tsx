@@ -216,7 +216,10 @@ export default function CategoriesPage() {
                   {/* Color dot */}
                   <div
                     className="w-4 h-4 rounded-full flex-shrink-0 ring-2 ring-offset-2"
-                    style={{ backgroundColor: cat.color, ringColor: cat.color }}
+                    style={{
+                      backgroundColor: cat.color,
+                      boxShadow: `0 0 0 2px ${cat.color}`
+                    }}
                   />
 
                   {/* Info */}
@@ -241,11 +244,10 @@ export default function CategoriesPage() {
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button
                       onClick={() => toggleActive(cat)}
-                      className={`text-xs px-2.5 py-1.5 rounded-lg border transition-colors ${
-                        cat.is_active
+                      className={`text-xs px-2.5 py-1.5 rounded-lg border transition-colors ${cat.is_active
                           ? 'border-slate-200 text-slate-500 hover:bg-slate-50'
                           : 'border-brand-200 text-brand-600 hover:bg-brand-50'
-                      }`}
+                        }`}
                     >
                       {cat.is_active ? 'Disable' : 'Enable'}
                     </button>
